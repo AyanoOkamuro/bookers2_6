@@ -2,7 +2,7 @@
   <% if @book.errors.any? %>
     <div id="error_explanation">
       <h3>
-      <%= pluralize(@book.errors.count, "error")%> 
+      <%= pluralize(@book.errors.count, "error")%>
         prohibited this obj from being saved:
       </h3>
       <ul>
@@ -17,7 +17,7 @@
     <div class="row">
       <%= render "books/list", book: @book, user: current_user %>
     </div>
-      
+
     <div class="col-md-8 offset-md-1">
       <h2>Books</h2>
         <table class="table table-hover table-inverse">
@@ -41,6 +41,23 @@
               <td>
                 <%= book.body %>
               </td>
+              <% if book.favorited_by?(current_user) %>
+                <td>
+                  <%= link_to book_favorites_path(book), method: :delete do %>
+                    <i class="fa fa-heart fa-xs" aria-hidden="true"  style="color: red;">
+                      <%= book.favorites.count %>
+                    </i>
+                  <% end %>
+                </td>
+              <% else %>
+                <td>
+                  <%= link_to book_favorites_path(book), method: :post do %>
+                    <i class="fa fa-heart fa-xs" aria-hidden="true">
+                      <%= book.favorites.count %>
+                    </i>
+                  <% end %>
+                </td>
+              <% end %>
             </tr>
           </tbody>
           <% end %>
@@ -48,5 +65,4 @@
     </div>
   </div>
 </main>
-  
-  
+
